@@ -1,3 +1,4 @@
+var request = require('request').defaults({ encoding: null })
 var Canvas = require('canvas'),
   fs = require('fs'),
   Image = Canvas.Image;
@@ -37,10 +38,12 @@ var classifySkin = function(r, g, b) {
   };
 
 module.exports = {
-  scan: function(src, callback) {
-    fs.readFile(src, function(err, data) {
+  scan: function(url, callback) {
+    request.get(url, function (err, res, data) {
+
       if(err)
         throw err;
+
       var canvas = new Canvas(1, 1),
         ctx = canvas.getContext('2d'),
         img = new Image,
